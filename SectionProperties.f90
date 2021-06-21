@@ -1,5 +1,4 @@
-program SectionProperties2
-
+module SectionProperties
     implicit none
 
     !*************************************************************************************
@@ -7,9 +6,9 @@ program SectionProperties2
     !  DATA DICTIONARY
     !
     !**************************************************************************************
-    integer :: n, i, dummy      ! Number of sides to polygon
+    integer :: dummy      ! Number of sides to polygon
     integer :: status
-    real, allocatable, dimension(:)    :: x, y           ! Cartesian coordinates of point
+    !real, allocatable, dimension(:)    :: x, y           ! Cartesian coordinates of point
     real, allocatable, dimension(:)    :: r, angle       ! Radius, included angle of arc
     real                  :: area_                      ! Area of polygon
     real                  :: xbar                       ! x coordinate of centroid (wrt origin)
@@ -18,47 +17,30 @@ program SectionProperties2
     real                  :: Iyy_                       ! Moment of intertia about vertical axis through xbar
     real                  :: Pxy_                       ! Product of inertia about xbar,ybar
 
-    ! Read data from console
-
-    write (*, *) "Input the number of sides (minimum of three): "
-    read (*, *) n
-
-    allocate (x(n), y(n), stat=status)
-
-    do i = 1, n
-        write (*, *) "Input the x, y coordinate of vertext ", i, ": "
-        read (*, *) x(i), y(i)
-    end do
-
-    do i = 1, n
-        write (*, 10) i, x(i), y(i)
-10      format(1x, /, 'The coordinates of vertex,', I2, ', are: ', 2(f7.3))
-    end do
-    !   read (*,*) dummy
-
-    area_ = area(n, x, y)
-    xbar = barx(n, x, y, area_)
-    ybar = bary(n, x, y, area_)
-    Ixx_ = Ixx(n, x, y, ybar)
-    Iyy_ = Iyy(n, x, y, xbar)
-    Pxy_ = Pxy(n, x, y, xbar, ybar)
-
-    write (*, 20) area_
-20  format(1x, /, 'The area of the section is: ', f8.3)
-    write (*, 30) xbar, ybar
-30  format(1x, /, 'The centroid the section is: ', f8.3, ','f8.3)
-    write (*, 40) Ixx_
-40  format(1x, /, 'The moment of inertia Ixx of the section about the centroid is: ', f8.3)
-    write (*, 50) Iyy_
-50  format(1x, /, 'The moment of inertia Iyy of the section about the centroid is: ', f8.3)
-    write (*, 60) Pxy_
-60  format(1x, /, 'The product of inertia Pxy of the section about the centroid is: ', f8.3)
-    read (*, *) dummy
-
-    deallocate (x, y)
-
 contains
+    subroutine driver(n, x, y)
+        integer, intent(in) :: n
+        real, dimension(n), intent(in) :: x, y
+        integer :: i
+        area_ = area(n, x, y)
+        xbar = barx(n, x, y, area_)
+        ybar = bary(n, x, y, area_)
+        Ixx_ = Ixx(n, x, y, ybar)
+        Iyy_ = Iyy(n, x, y, xbar)
+        Pxy_ = Pxy(n, x, y, xbar, ybar)
 
+        write (*, 20) area_
+20      format(1x, /, 'The area of the section is: ', f8.3)
+        write (*, 30) xbar, ybar
+30      format(1x, /, 'The centroid the section is: ', f8.3, ','f8.3)
+        write (*, 40) Ixx_
+40      format(1x, /, 'The moment of inertia Ixx of the section about the centroid is: ', f8.3)
+        write (*, 50) Iyy_
+50      format(1x, /, 'The moment of inertia Iyy of the section about the centroid is: ', f8.3)
+        write (*, 60) Pxy_
+60      format(1x, /, 'The product of inertia Pxy of the section about the centroid is: ', f8.3)
+        read (*, *) dummy
+    end subroutine
     real function area(n, x, y)
         implicit none
         integer, intent(in) :: n
@@ -175,4 +157,4 @@ contains
 
     end function Pxy
 
-end program SectionProperties2
+end module SectionProperties
