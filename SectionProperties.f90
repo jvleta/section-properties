@@ -1,14 +1,8 @@
 module SectionProperties
     implicit none
 
-    !*************************************************************************************
-    !
-    !  DATA DICTIONARY
-    !
-    !**************************************************************************************
     integer :: dummy      ! Number of sides to polygon
     integer :: status
-    !real, allocatable, dimension(:)    :: x, y           ! Cartesian coordinates of point
     real, allocatable, dimension(:)    :: r, angle       ! Radius, included angle of arc
     real                  :: area_                      ! Area of polygon
     real                  :: xbar                       ! x coordinate of centroid (wrt origin)
