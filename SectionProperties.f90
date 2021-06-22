@@ -15,7 +15,6 @@ contains
     subroutine driver(n, x, y)
         integer, intent(in) :: n
         real, dimension(n), intent(in) :: x, y
-        integer :: i
         area_ = area(n, x, y)
         xbar = barx(n, x, y, area_)
         ybar = bary(n, x, y, area_)
