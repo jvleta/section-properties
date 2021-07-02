@@ -1,15 +1,14 @@
 module SectionProperties
     implicit none
 
-    integer :: dummy      ! Number of sides to polygon
     integer :: status
-    real, allocatable, dimension(:)    :: r, angle       ! Radius, included angle of arc
-    real                  :: area_                      ! Area of polygon
-    real                  :: xbar                       ! x coordinate of centroid (wrt origin)
-    real                  :: ybar                       ! y coordinate of centroid (wrt origin)
-    real                  :: Ixx_                       ! Moment of intertia about horizontal axis through ybar
-    real                  :: Iyy_                       ! Moment of intertia about vertical axis through xbar
-    real                  :: Pxy_                       ! Product of inertia about xbar,ybar
+    real, allocatable     :: r(:), angle(:) ! Radius, included angle of arc
+    real                  :: area_          ! Area of polygon
+    real                  :: xbar           ! x coordinate of centroid (wrt origin)
+    real                  :: ybar           ! y coordinate of centroid (wrt origin)
+    real                  :: Ixx_           ! Moment of intertia about horizontal axis through ybar
+    real                  :: Iyy_           ! Moment of intertia about vertical axis through xbar
+    real                  :: Pxy_           ! Product of inertia about xbar,ybar
 
 contains
     subroutine driver(n, x, y)
@@ -25,15 +24,16 @@ contains
         write (*, 20) area_
 20      format(1x, /, 'The area of the section is: ', f8.3)
         write (*, 30) xbar, ybar
-30      format(1x, /, 'The centroid the section is: ', f8.3, ','f8.3)
+30      format(1x, /, 'The centroid the section is: ', f8.3, ',', f8.3)
         write (*, 40) Ixx_
 40      format(1x, /, 'The moment of inertia Ixx of the section about the centroid is: ', f8.3)
         write (*, 50) Iyy_
 50      format(1x, /, 'The moment of inertia Iyy of the section about the centroid is: ', f8.3)
         write (*, 60) Pxy_
 60      format(1x, /, 'The product of inertia Pxy of the section about the centroid is: ', f8.3)
-        read (*, *) dummy
+
     end subroutine
+
     real function area(n, x, y)
         implicit none
         integer, intent(in) :: n
@@ -134,7 +134,6 @@ contains
         end do
 
         ! Last Segment
-
         dx = x(1) - x(n)
         dy = y(1) - y(n)
         if (dy == 0.) then ! horizontal line

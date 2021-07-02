@@ -14,7 +14,7 @@ contains
         real, parameter :: pi = 3.14159
         real :: circumference
 
-        r = 10.0
+        r = 1.0
         circumference = 2.0*pi*r
         dtheta = circumference/real(nsides - 1)
         do i = 1, nsides
@@ -70,8 +70,6 @@ contains
             write (*, 10) i, x(i), y(i)
 10          format(1x, /, 'The coordinates of vertex,', I2, ', are: ', 2(f7.3))
         end do
-        !   read (*,*) dummy
-
         call driver(nsides, x, y)
         deallocate (x, y)
     end subroutine
